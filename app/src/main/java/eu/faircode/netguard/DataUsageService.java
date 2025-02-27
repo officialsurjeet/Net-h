@@ -72,7 +72,7 @@ public class DataUsageService extends Service {
 		.setContentTitle(formatBytes(total))
 		.setOnlyAlertOnce(true)
 		.setContentText(text)
-		.setSmallIcon(com.speed.ImageUtils.createBitmapFromString(total))// replace with your icon
+		.setSmallIcon(ImageUtils.createBitmapFromString(total))// replace with your icon
 		.setContentIntent(pendingIntent)
 		.setPriority(NotificationCompat.PRIORITY_DEFAULT)  //Low priority for background tracking
 		.setOngoing(true)
