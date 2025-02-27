@@ -104,7 +104,7 @@ public class DataUsageService extends Service {
 				});
 				
 			}
-		}, 0, 1000);  // Update every 5 seconds
+		}, 0, 2000);  // Update every 5 seconds
 	}
 	private String formatBytes(long bytes) {
 		if (bytes < 1024) {
