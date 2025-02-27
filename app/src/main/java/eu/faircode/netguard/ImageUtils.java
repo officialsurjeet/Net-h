@@ -30,7 +30,7 @@ public class ImageUtils {
 		
 		Paint unitsPaint = new Paint();
 		unitsPaint.setAntiAlias(true);
-		unitsPaint.setTextSize(40);
+		unitsPaint.setTextSize(55);
 		unitsPaint.setTextAlign(Paint.Align.CENTER);
 		unitsPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD)); // Set text to bold
 		
@@ -44,8 +44,8 @@ public class ImageUtils {
 		Bitmap bitmap = Bitmap.createBitmap(96, 96, Bitmap.Config.ARGB_8888);
 		
 		Canvas canvas = new Canvas(bitmap);
-		canvas.drawText(speed, 48, 48, paint);
-		canvas.drawText(unit, 48, 92, unitsPaint);
+		canvas.drawText(speed, 50, 50, paint);
+		canvas.drawText(unit, 50, 92, unitsPaint);
 		
 		return IconCompat.createWithBitmap(bitmap);
 	}
