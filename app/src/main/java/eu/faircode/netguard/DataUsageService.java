@@ -64,7 +64,7 @@ public class DataUsageService extends Service {
 	private Notification createNotification(String text,long total) {
 		
 		// Intent to launch when notification is clicked
-		Intent notificationIntent = new Intent(this, MainActivity.class); // Replace MainActivity if not your launcher activity
+		Intent notificationIntent = new Intent(this, ActivityMain.class); // Replace MainActivity if not your launcher activity
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 		
 		
