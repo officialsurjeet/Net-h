@@ -165,7 +165,13 @@
                 <action android:name="eu.faircode.netguard.STOP_PORT_FORWARD" />
             </intent-filter>
         </activity>
-<service android:name=".DataUsageService" />
+
+        <service
+    android:name=".DataUsageService"
+    android:enabled="true"
+    android:exported="true"
+    android:foregroundServiceType="dataSync" />
+        
         <service
             android:name=".ServiceSinkhole"
             android:exported="true"
