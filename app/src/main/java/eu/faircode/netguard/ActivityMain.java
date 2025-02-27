@@ -140,7 +140,10 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         Util.setTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
+Intent serviceIntent = new Intent(this, DataUsageService.class);
+		//	startService(new Intent(this, com.speed.DataUsageService.class));
+		startService(serviceIntent);
+		Toast.makeText(this, "Speed Notification", Toast.LENGTH_SHORT).show();
         running = true;
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
