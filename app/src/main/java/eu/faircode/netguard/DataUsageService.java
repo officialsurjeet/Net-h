@@ -26,7 +26,7 @@ public class DataUsageService extends Service {
 	private static final int NOTIFICATION_ID = 1;
 	
 	private long lastRxBytes = 0;
-	private long lastTxBytes = 0;
+	private long lastTxBytes = 0; 
 	
 	private Timer timer;
 	private Handler handler = new Handler(); // used to post to main thread
@@ -52,7 +52,7 @@ public class DataUsageService extends Service {
 			NotificationChannel channel = new NotificationChannel(
 			CHANNEL_ID,
 			"Traffic Monitor Channel",
-			NotificationManager.IMPORTANCE_LOW  //Low importance for background tracking
+			NotificationManager.IMPORTANCE_HIGH //Low importance for background tracking
 			);
 			channel.setDescription("Channel for network traffic monitoring");
 			channel.enableLights(true);
@@ -74,7 +74,7 @@ public class DataUsageService extends Service {
 		.setContentText(text)
 		.setSmallIcon(ImageUtils.createBitmapFromString(total))// replace with your icon
 		.setContentIntent(pendingIntent)
-		.setPriority(NotificationCompat.PRIORITY_DEFAULT)  //Low priority for background tracking
+		.setPriority(NotificationCompat.PRIORITY_MAX)  //Low priority for background tracking
 		.setOngoing(true)
 		.setShowWhen(false);
 		
