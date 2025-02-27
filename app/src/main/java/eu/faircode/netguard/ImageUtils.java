@@ -25,27 +25,27 @@ public class ImageUtils {
 		
 		Paint paint = new Paint();
 		paint.setAntiAlias(true);
-		paint.setTextSize(140F);
+		paint.setTextSize(65);
 		paint.setTextAlign(Paint.Align.CENTER);
 		
 		Paint unitsPaint = new Paint();
 		unitsPaint.setAntiAlias(true);
-		unitsPaint.setTextSize(90F);
+		unitsPaint.setTextSize(40);
 		unitsPaint.setTextAlign(Paint.Align.CENTER);
 		unitsPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD)); // Set text to bold
 		
-		Rect speedBounds = new Rect();
-		paint.getTextBounds(speed, 0, speed.length(), speedBounds);
+		//Rect speedBounds = new Rect();
+		//paint.getTextBounds(speed, 0, speed.length(), speedBounds);
 		
-		Rect unitsBounds = new Rect();
-		unitsPaint.getTextBounds(unit, 0, unit.length(), unitsBounds);
+		//Rect unitsBounds = new Rect();
+		//unitsPaint.getTextBounds(unit, 0, unit.length(), unitsBounds);
 		
 		// Adjust the bitmap size for status bar icon
-		Bitmap bitmap = Bitmap.createBitmap(200, 200, Bitmap.Config.ARGB_8888);
+		Bitmap bitmap = Bitmap.createBitmap(96, 96, Bitmap.Config.ARGB_8888);
 		
 		Canvas canvas = new Canvas(bitmap);
-		canvas.drawText(speed, 100, 100, paint);
-		canvas.drawText(unit, 100, 180, unitsPaint);
+		canvas.drawText(speed, 48, 48, paint);
+		canvas.drawText(unit, 48, 92, unitsPaint);
 		
 		return IconCompat.createWithBitmap(bitmap);
 	}
