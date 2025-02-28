@@ -69,13 +69,14 @@ public class DataUsageService extends Service {
 		
 		
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-		.setContentTitle(formatBytes(total))
+		.setContentTitle(formatBytes(total)+"/t"+getDailyDataUsage())
 		.setOnlyAlertOnce(true)
 		.setContentText(text)
 		.setSmallIcon(ImageUtils.createBitmapFromString(total))// replace with your icon
 		.setContentIntent(pendingIntent)
 		.setPriority(NotificationCompat.PRIORITY_MAX)  //Low priority for background tracking
 		.setOngoing(true)
+	        .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
 		.setShowWhen(false);
 		
 		return builder.build();
@@ -106,14 +107,29 @@ public class DataUsageService extends Service {
 			}
 		}, 0, 2000);  // Update every 5 seconds
 	}
+	private String getDailyDataUsage()
+		{
+			String datat;
+			long receivedBytes = TrafficStats.getMobileRxBytes();
+        long transmittedBytes = TrafficStats.getMobileTxBytes();
+		return formatBytes(receivedBytes+transmittedBytes);
+		}
+	
 	private String formatBytes(long bytes) {
 		if (bytes < 1024) {
 			return bytes + " B";
 			} else if (bytes < 1024 * 1024) {
 			return String.format("%.2f KB", bytes / 1024.0);
-			} else {
+			} else if (bytes < 1024 * 1024 * 1024)
+					 {
 			return String.format("%.2f MB", bytes / (1024.0 * 1024.0));
+
 		}
+		else{
+			return String.format("%.2f GB", bytes / (1024.0 * 1024.0*1024.0));
+
+		}
+	
 	}
 	
 	@Override
