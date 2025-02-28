@@ -13,13 +13,6 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 
-import android.app.usage.NetworkStats;
-import android.app.usage.NetworkStatsManager;
-//import android.content.Context;
-import android.net.ConnectivityManager;
-import android.os.RemoteException;
-import android.telephony.TelephonyManager;
-
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
@@ -76,14 +69,14 @@ public class DataUsageService extends Service {
 		
 		
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-		.setContentTitle(formatBytes(total)+"\t"+getDailyMobileDataUsage())
+		.setContentTitle(formatBytes(total))
 		.setOnlyAlertOnce(true)
 		.setContentText(text)
 		.setSmallIcon(ImageUtils.createBitmapFromString(total))// replace with your icon
 		.setContentIntent(pendingIntent)
 		.setPriority(NotificationCompat.PRIORITY_MAX)  //Low priority for background tracking
 		.setOngoing(true)
-	        .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+	        .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
 		.setShowWhen(false);
 		
 		return builder.build();
@@ -114,63 +107,6 @@ public class DataUsageService extends Service {
 			}
 		}, 0, 2000);  // Update every 5 seconds
 	}
-
-public String getDailyMobileDataUsage() {
-        NetworkStatsManager networkStatsManager = (NetworkStatsManager) this.getSystemService(Context.NETWORK_STATS_SERVICE);
-        TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-
-        String subscriberId = telephonyManager.getSubscriberId();
-        long startTime = getStartOfDay();
-        long endTime = System.currentTimeMillis();
-
-        NetworkStats networkStats;
-        long totalBytes = 0;
-
-        try {
-            networkStats = networkStatsManager.querySummary(ConnectivityManager.TYPE_MOBILE, subscriberId, startTime, endTime);
-            NetworkStats.Bucket bucket = new NetworkStats.Bucket();
-            while (networkStats.hasNextBucket()) {
-                networkStats.getNextBucket(bucket);
-                totalBytes += bucket.getRxBytes() + bucket.getTxBytes();
-            }
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-        return formatBytes(totalBytes);
-    }
-
-    public String getDailyWifiDataUsage() {
-        NetworkStatsManager networkStatsManager = (NetworkStatsManager) this.getSystemService(Context.NETWORK_STATS_SERVICE);
-        long startTime = getStartOfDay();
-        long endTime = System.currentTimeMillis();
-
-        NetworkStats networkStats;
-        long totalBytes = 0;
-
-        try {
-            networkStats = networkStatsManager.querySummary(ConnectivityManager.TYPE_WIFI, "", startTime, endTime);
-            NetworkStats.Bucket bucket = new NetworkStats.Bucket();
-            while (networkStats.hasNextBucket()) {
-                networkStats.getNextBucket(bucket);
-                totalBytes += bucket.getRxBytes() + bucket.getTxBytes();
-            }
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-        return formatBytes(totalBytes);
-    }
-
-    private long getStartOfDay() {
-        java.util.Calendar calendar = java.util.Calendar.getInstance();
-        calendar.set(java.util.Calendar.HOUR_OF_DAY, 0);
-        calendar.set(java.util.Calendar.MINUTE, 0);
-        calendar.set(java.util.Calendar.SECOND, 0);
-        calendar.set(java.util.Calendar.MILLISECOND, 0);
-        return calendar.getTimeInMillis();
-    }
-	
 	private String getDailyDataUsage()
 		{
 			String datat;
