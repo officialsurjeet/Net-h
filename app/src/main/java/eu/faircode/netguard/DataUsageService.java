@@ -116,8 +116,8 @@ public class DataUsageService extends Service {
 	}
 
 public String getDailyMobileDataUsage() {
-        NetworkStatsManager networkStatsManager = (NetworkStatsManager) context.getSystemService(Context.NETWORK_STATS_SERVICE);
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        NetworkStatsManager networkStatsManager = (NetworkStatsManager) this.getSystemService(Context.NETWORK_STATS_SERVICE);
+        TelephonyManager telephonyManager = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
 
         String subscriberId = telephonyManager.getSubscriberId();
         long startTime = getStartOfDay();
@@ -141,7 +141,7 @@ public String getDailyMobileDataUsage() {
     }
 
     public String getDailyWifiDataUsage() {
-        NetworkStatsManager networkStatsManager = (NetworkStatsManager) context.getSystemService(Context.NETWORK_STATS_SERVICE);
+        NetworkStatsManager networkStatsManager = (NetworkStatsManager) this.getSystemService(Context.NETWORK_STATS_SERVICE);
         long startTime = getStartOfDay();
         long endTime = System.currentTimeMillis();
 
