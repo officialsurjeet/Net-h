@@ -14,7 +14,7 @@ public class ImageUtils {
 		String speed;
 		if (speed1 < 100) {
 			speed = String.valueOf((int) speed1);
-			unit = "B";
+			unit = "Bit";
 			} else if (speed1 < 1024 * 999) {
 			speed = String.format("%d", (int) (speed1 / 1024.0));
 			unit = "KB";
@@ -25,14 +25,15 @@ public class ImageUtils {
 		
 		Paint paint = new Paint();
 		paint.setAntiAlias(true);
-		paint.setTextSize(65);
+		paint.setTextSize(70);
 		paint.setTextAlign(Paint.Align.CENTER);
+		paint.setTypeface(Typeface.DEFAULT_BOLD);
 		
 		Paint unitsPaint = new Paint();
 		unitsPaint.setAntiAlias(true);
-		unitsPaint.setTextSize(55);
+		unitsPaint.setTextSize(50);
 		unitsPaint.setTextAlign(Paint.Align.CENTER);
-		unitsPaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD)); // Set text to bold
+		unitsPaint.setTypeface(Typeface.DEFAULT_BOLD); // Set text to bold
 		
 		//Rect speedBounds = new Rect();
 		//paint.getTextBounds(speed, 0, speed.length(), speedBounds);
