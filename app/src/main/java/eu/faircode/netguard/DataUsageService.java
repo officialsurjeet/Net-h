@@ -76,7 +76,7 @@ public class DataUsageService extends Service {
 		.setContentIntent(pendingIntent)
 		.setPriority(NotificationCompat.PRIORITY_MAX)  //Low priority for background tracking
 		.setOngoing(true)
-	        .setStyle(new NotificationCompat.DecoratedCustomViewStyle());
+	        .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
 		.setShowWhen(false);
 		
 		return builder.build();
