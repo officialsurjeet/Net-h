@@ -142,7 +142,7 @@ public class ActivityMain extends AppCompatActivity implements SharedPreferences
         setContentView(R.layout.main);
 Intent serviceIntent = new Intent(this, DataUsageService.class);
 		startService(serviceIntent);
-		Toast.makeText(this, "Speed Notification", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, "Speed Notification", Toast.LENGTH_SHORT).show();
         running = true;
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
