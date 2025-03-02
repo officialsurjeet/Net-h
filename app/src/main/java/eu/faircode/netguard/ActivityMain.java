@@ -167,6 +167,7 @@ Intent serviceIntent = new Intent(this, DataUsageService.class);
         ivMetered = actionView.findViewById(R.id.ivMetered);
 
         // Icon
+	    ivIcon.setVisibility(Visibility.GONE);
         ivIcon.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
