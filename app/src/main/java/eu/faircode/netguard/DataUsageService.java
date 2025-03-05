@@ -32,11 +32,16 @@ public class DataUsageService extends Service {
 	private Handler handler = new Handler(); // used to post to main thread
 	private NotificationManager notificationManager;
 	
+	private DataUsageTracker dataUsageTracker;
+        private NotificationHelper notificationHelper;
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		createNotificationChannel();
+		dataUsageTracker = new DataUsageTracker(this);
+                notificationHelper = new NotificationHelper(this);
 	}
 	
 	@Override
@@ -100,7 +105,10 @@ public class DataUsageService extends Service {
 				lastTxBytes = currentTxBytes;
 				long total=deltaRx+deltaTx;
 				String notificationText = String.format("↓ %s/s  ↑ %s/s", formatBytes(deltaRx), formatBytes(deltaTx));
-				
+
+				long mobileData = dataUsageTracker.getMobileDataUsage();
+                                long wifiData = dataUsageTracker.getWifiDataUsage();
+        
 				handler.post(() -> { // Posting to the main thread so it updates UI
 					notificationManager.notify(NOTIFICATION_ID, createNotification(notificationText,total));
 				});
