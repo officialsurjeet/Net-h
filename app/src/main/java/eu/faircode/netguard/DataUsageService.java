@@ -39,7 +39,6 @@ public class DataUsageService extends Service {
 		notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		createNotificationChannel();
 		dataUsageTracker = new DataUsageTracker(this);
-                notificationHelper = new NotificationHelper(this);
 	}
 	
 	@Override
