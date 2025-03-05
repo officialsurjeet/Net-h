@@ -33,8 +33,6 @@ public class DataUsageService extends Service {
 	private NotificationManager notificationManager;
 	
 	private DataUsageTracker dataUsageTracker;
-        private NotificationHelper notificationHelper;
-	
 	@Override
 	public void onCreate() {
 		super.onCreate();
