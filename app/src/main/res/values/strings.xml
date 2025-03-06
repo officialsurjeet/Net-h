@@ -275,7 +275,8 @@ Your internet traffic is not being sent to a remote VPN server.</string>
     <string name="title_precedence">Access rules take precedence over other rules</string>
     <string name="title_options">Options</string>
     <string name="title_notify">Notify internet access attempts</string>
-
+    <string name="title_open_only">Allow internet access only when the app is open</string>
+    
     <string name="title_logging_disabled">Logging or filtering is not enabled</string>
     <string name="title_logging_enabled">Logging and filtering are enabled</string>
     <string name="title_logging_configure">Configure</string>
