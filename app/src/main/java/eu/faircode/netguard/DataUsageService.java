@@ -33,12 +33,15 @@ public class DataUsageService extends Service {
 	private NotificationManager notificationManager;
 	
 	private DataUsageTracker dataUsageTracker;
+	private TotalDataUsage totalDataUsage ;
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 		createNotificationChannel();
 		dataUsageTracker = new DataUsageTracker(this);
+		totalDataUsage = new TotalDataUsage(this);
 	}
 	
 	@Override
@@ -105,6 +108,9 @@ public class DataUsageService extends Service {
 
 				long mobileData = dataUsageTracker.getMobileDataUsage();
                                 long wifiData = dataUsageTracker.getWifiDataUsage();
+
+				long mobileDataUsage = totalDataUsage.getTotalMobileDataUsage();
+long wifiDataUsage = totalDataUsage.getTotalWifiDataUsage();
         
 				handler.post(() -> { // Posting to the main thread so it updates UI
 					notificationManager.notify(NOTIFICATION_ID, createNotification(notificationText,total));
