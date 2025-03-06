@@ -4,10 +4,6 @@ import android.app.usage.NetworkStats;
 import android.app.usage.NetworkStatsManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.NetworkCapabilities;
-import android.net.NetworkInfo;
-import android.net.TrafficStats;
-import android.os.Build;
 
 import java.util.Calendar;
 
@@ -50,6 +46,8 @@ public class TotalDataUsage {
             }
         } catch (SecurityException e) {
             e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace(); // Handle the RemoteException
         }
         return totalMobileData;
     }
@@ -84,6 +82,8 @@ public class TotalDataUsage {
             }
         } catch (SecurityException e) {
             e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace(); // Handle the RemoteException
         }
         return totalWifiData;
     }
