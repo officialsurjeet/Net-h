@@ -385,6 +385,28 @@
                 android:textAppearance="@style/TextSmall" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/llOpenOnly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ivOpenOnlyLegend"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/open" />
+
+            <CheckBox
+                android:id="@+id/cbOpenOnly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/title_open_only"
+                android:textAppearance="@style/TextSmall" />
+        </LinearLayout>
+
         <ImageButton
             android:id="@+id/btnClear"
             android:layout_width="wrap_content"
@@ -487,4 +509,4 @@
                 android:textAppearance="@style/TextSmall" />
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</Lin
