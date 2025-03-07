@@ -47,6 +47,7 @@ import java.util.Map;
 public class Rule {
     private static final String TAG = "NetGuard.Rule";
 
+    PackageInfo info1;
     public int uid;
     public String packageName;
     public int icon;
@@ -136,6 +137,7 @@ public class Rule {
     }
 
     private Rule(DatabaseHelper dh, PackageInfo info, Context context) {
+        info1=info;
         this.uid = info.applicationInfo.uid;
         this.packageName = info.packageName;
         this.icon = info.applicationInfo.icon;
@@ -226,8 +228,8 @@ public class Rule {
             boolean show_nointernet = prefs.getBoolean("show_nointernet", true);
             boolean show_disabled = prefs.getBoolean("show_disabled", true);
 
-            default_screen_wifi = default_screen_wifi && isAppOpened(context, info.packageName);
-default_screen_other = default_screen_other && isAppOpened(context, info.packageName);
+            default_screen_wifi = default_screen_wifi && isAppOpened(context, info1.packageName);
+default_screen_other = default_screen_other && isAppOpened(context, info1.packageName);
 
             // Get predefined rules
             Map<String, Boolean> pre_wifi_blocked = new HashMap<>();
@@ -363,8 +365,8 @@ default_screen_other = default_screen_other && isAppOpened(context, info.package
 
                         rule.wifi_blocked = (!(rule.system && !manage_system) && wifi.getBoolean(info.packageName, rule.wifi_default));
                         rule.other_blocked = (!(rule.system && !manage_system) && other.getBoolean(info.packageName, rule.other_default));
-                        rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default) && isAppOpened(context, info.packageName);
-rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default) && isAppOpened(context, info.packageName);
+                        rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default) && isAppOpened(context, info1.packageName);
+rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default) && isAppOpened(context, info1.packageName);
 rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
                         
                         rule.lockdown = lockdown.getBoolean(info.packageName, false);
