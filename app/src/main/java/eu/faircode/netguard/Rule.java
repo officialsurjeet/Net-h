@@ -438,4 +438,16 @@ public class Rule {
 
     public void updateChanged(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean screen_on = prefs.getBoolea
+        boolean screen_on = prefs.getBoolean("screen_on", false);
+        boolean default_wifi = prefs.getBoolean("whitelist_wifi", true) && screen_on;
+        boolean default_other = prefs.getBoolean("whitelist_other", true) && screen_on;
+        boolean default_roaming = prefs.getBoolean("whitelist_roaming", true);
+        updateChanged(default_wifi, default_other, default_roaming);
+    }
+
+    @Override
+    public String toString() {
+        // This is used in the port forwarding dialog application selector
+        return this.name;
+    }
+}
