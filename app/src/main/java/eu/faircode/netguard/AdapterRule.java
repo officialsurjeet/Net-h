@@ -402,6 +402,7 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
 
         boolean screen_on = prefs.getBoolean("screen_on", true);
 
+        boolean app_opened = Util.isAppOpened(context, rule.packageName);
         // Wi-Fi settings
         holder.cbWifi.setEnabled(rule.apply);
         holder.cbWifi.setAlpha(wifiActive ? 1 : 0.5f);
@@ -528,8 +529,12 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         });
 
         // Show Wi-Fi screen on condition
-        holder.llScreenWifi.setVisibility(screen_on ? View.VISIBLE : View.GONE);
-        holder.cbScreenWifi.setEnabled(rule.wifi_blocked && rule.apply);
+        //holder.llScreenWifi.setVisibility(screen_on ? View.VISIBLE : View.GONE);
+        //holder.cbScreenWifi.setEnabled(rule.wifi_blocked && rule.apply);
+        holder.llScreenWifi.setVisibility(app_opened ? View.VISIBLE : View.GONE);
+holder.cbScreenWifi.setEnabled(rule.wifi_blocked && rule.apply);
+
+        
         holder.cbScreenWifi.setOnCheckedChangeListener(null);
         holder.cbScreenWifi.setChecked(rule.screen_wifi);
 
@@ -547,8 +552,11 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         });
 
         // Show mobile screen on condition
-        holder.llScreenOther.setVisibility(screen_on ? View.VISIBLE : View.GONE);
-        holder.cbScreenOther.setEnabled(rule.other_blocked && rule.apply);
+       // holder.llScreenOther.setVisibility(screen_on ? View.VISIBLE : View.GONE);
+       // holder.cbScreenOther.setEnabled(rule.other_blocked && rule.apply);
+      holder.llScreenOther.setVisibility(app_opened ? View.VISIBLE : View.GONE);
+holder.cbScreenOther.setEnabled(rule.other_blocked && rule.apply);
+        
         holder.cbScreenOther.setOnCheckedChangeListener(null);
         holder.cbScreenOther.setChecked(rule.screen_other);
 
