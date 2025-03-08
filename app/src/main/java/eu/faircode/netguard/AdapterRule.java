@@ -529,9 +529,9 @@ public class AdapterRule extends RecyclerView.Adapter<AdapterRule.ViewHolder> im
         });
 
         // Show Wi-Fi screen on condition
-        //holder.llScreenWifi.setVisibility(screen_on ? View.VISIBLE : View.GONE);
+        holder.llScreenWifi.setVisibility(screen_on ? View.VISIBLE : View.GONE);
         //holder.cbScreenWifi.setEnabled(rule.wifi_blocked && rule.apply);
-        holder.llScreenWifi.setVisibility(app_opened ? View.VISIBLE : View.GONE);
+     //   holder.llScreenWifi.setVisibility(app_opened ? View.VISIBLE : View.GONE);
 holder.cbScreenWifi.setEnabled(rule.wifi_blocked && rule.apply);
 
         
@@ -552,9 +552,9 @@ holder.cbScreenWifi.setEnabled(rule.wifi_blocked && rule.apply);
         });
 
         // Show mobile screen on condition
-       // holder.llScreenOther.setVisibility(screen_on ? View.VISIBLE : View.GONE);
+        holder.llScreenOther.setVisibility(screen_on ? View.VISIBLE : View.GONE);
        // holder.cbScreenOther.setEnabled(rule.other_blocked && rule.apply);
-      holder.llScreenOther.setVisibility(app_opened ? View.VISIBLE : View.GONE);
+    //  holder.llScreenOther.setVisibility(app_opened ? View.VISIBLE : View.GONE);
 holder.cbScreenOther.setEnabled(rule.other_blocked && rule.apply);
         
         holder.cbScreenOther.setOnCheckedChangeListener(null);
