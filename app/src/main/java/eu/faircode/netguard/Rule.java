@@ -199,7 +199,19 @@ public class Rule {
             }
         }
     }
+public static boolean isAppOpened(Context context, String packageName) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = activityManager.getRunningAppProcesses();
 
+        for (ActivityManager.RunningAppProcessInfo processInfo : runningAppProcesses) {
+            if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                if (Arrays.asList(processInfo.pkgList).contains(packageName)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+}
   /*  public static List<Rule> getRules(final boolean all, Context context) {
         synchronized (context.getApplicationContext()) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
