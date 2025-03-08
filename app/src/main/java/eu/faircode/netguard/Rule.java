@@ -29,7 +29,8 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Process;
 import android.util.Log;
-
+import android.app.ActivityManager;
+import java.util.Arrays;
 import androidx.preference.PreferenceManager;
 
 import org.xmlpull.v1.XmlPullParser;
