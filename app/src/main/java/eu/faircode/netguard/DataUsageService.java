@@ -111,7 +111,11 @@ public class DataUsageService extends Service {
 
 				long mobileDataUsage = totalDataUsage.getTotalMobileDataUsage();
 long wifiDataUsage = totalDataUsage.getTotalWifiDataUsage();
-        
+				long tott=mobileDataUsage+wifiDataUsage;
+notificationText = notificationText + tott;
+                        
+
+				
 				handler.post(() -> { // Posting to the main thread so it updates UI
 					notificationManager.notify(NOTIFICATION_ID, createNotification(notificationText,total));
 				});
