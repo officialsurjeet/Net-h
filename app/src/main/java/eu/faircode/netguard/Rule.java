@@ -29,8 +29,7 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Process;
 import android.util.Log;
-import android.app.ActivityManager;
-import java.util.Arrays;
+
 import androidx.preference.PreferenceManager;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -200,20 +199,8 @@ public class Rule {
             }
         }
     }
-public static boolean isAppOpened(Context context, String packageName) {
-        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = activityManager.getRunningAppProcesses();
 
-        for (ActivityManager.RunningAppProcessInfo processInfo : runningAppProcesses) {
-            if (processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                if (Arrays.asList(processInfo.pkgList).contains(packageName)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-}
-  /*  public static List<Rule> getRules(final boolean all, Context context) {
+    public static List<Rule> getRules(final boolean all, Context context) {
         synchronized (context.getApplicationContext()) {
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
             SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
@@ -239,8 +226,8 @@ public static boolean isAppOpened(Context context, String packageName) {
             boolean show_nointernet = prefs.getBoolean("show_nointernet", true);
             boolean show_disabled = prefs.getBoolean("show_disabled", true);
 
-            default_screen_wifi = default_screen_wifi && isAppOpened(context, packageName);
-default_screen_other = default_screen_other && isAppOpened(context, packageName);
+            default_screen_wifi = default_screen_wifi && screen_on;
+            default_screen_other = default_screen_other && screen_on;
 
             // Get predefined rules
             Map<String, Boolean> pre_wifi_blocked = new HashMap<>();
@@ -376,10 +363,9 @@ default_screen_other = default_screen_other && isAppOpened(context, packageName)
 
                         rule.wifi_blocked = (!(rule.system && !manage_system) && wifi.getBoolean(info.packageName, rule.wifi_default));
                         rule.other_blocked = (!(rule.system && !manage_system) && other.getBoolean(info.packageName, rule.other_default));
-                        rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default) && isAppOpened(context, packageName);
-rule.screen_other = screen_other.getBoolean(packageName, rule.screen_other_default) && isAppOpened(context, packageName);
-rule.roaming = roaming.getBoolean(packageName, rule.roaming_default);
-                        
+                        rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default) && screen_on;
+                        rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default) && screen_on;
+                        rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
                         rule.lockdown = lockdown.getBoolean(info.packageName, false);
 
                         rule.apply = apply.getBoolean(info.packageName, true);
@@ -439,230 +425,6 @@ rule.roaming = roaming.getBoolean(packageName, rule.roaming_default);
 
             return listRules;
         }
-    }*/
-
-    public static List<Rule> getRules(final boolean all, Context context) {
-    synchronized (context.getApplicationContext()) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences wifi = context.getSharedPreferences("wifi", Context.MODE_PRIVATE);
-        SharedPreferences other = context.getSharedPreferences("other", Context.MODE_PRIVATE);
-        SharedPreferences screen_wifi = context.getSharedPreferences("screen_wifi", Context.MODE_PRIVATE);
-        SharedPreferences screen_other = context.getSharedPreferences("screen_other", Context.MODE_PRIVATE);
-        SharedPreferences roaming = context.getSharedPreferences("roaming", Context.MODE_PRIVATE);
-        SharedPreferences lockdown = context.getSharedPreferences("lockdown", Context.MODE_PRIVATE);
-        SharedPreferences apply = context.getSharedPreferences("apply", Context.MODE_PRIVATE);
-        SharedPreferences notify = context.getSharedPreferences("notify", Context.MODE_PRIVATE);
-
-        // Get settings
-        boolean default_wifi = prefs.getBoolean("whitelist_wifi", true);
-        boolean default_other = prefs.getBoolean("whitelist_other", true);
-        boolean default_screen_wifi = prefs.getBoolean("screen_wifi", false);
-        boolean default_screen_other = prefs.getBoolean("screen_other", false);
-        boolean default_roaming = prefs.getBoolean("whitelist_roaming", true);
-
-        boolean manage_system = prefs.getBoolean("manage_system", false);
-        boolean screen_on = prefs.getBoolean("screen_on", true);
-        boolean show_user = prefs.getBoolean("show_user", true);
-        boolean show_system = prefs.getBoolean("show_system", false);
-        boolean show_nointernet = prefs.getBoolean("show_nointernet", true);
-        boolean show_disabled = prefs.getBoolean("show_disabled", true);
-
-        // Get predefined rules
-        Map<String, Boolean> pre_wifi_blocked = new HashMap<>();
-        Map<String, Boolean> pre_other_blocked = new HashMap<>();
-        Map<String, Boolean> pre_roaming = new HashMap<>();
-        Map<String, String[]> pre_related = new HashMap<>();
-        Map<String, Boolean> pre_system = new HashMap<>();
-        try {
-            XmlResourceParser xml = context.getResources().getXml(R.xml.predefined);
-            int eventType = xml.getEventType();
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_TAG)
-                    if ("wifi".equals(xml.getName())) {
-                        String pkg = xml.getAttributeValue(null, "package");
-                        boolean pblocked = xml.getAttributeBooleanValue(null, "blocked", false);
-                        pre_wifi_blocked.put(pkg, pblocked);
-
-                    } else if ("other".equals(xml.getName())) {
-                        String pkg = xml.getAttributeValue(null, "package");
-                        boolean pblocked = xml.getAttributeBooleanValue(null, "blocked", false);
-                        boolean proaming = xml.getAttributeBooleanValue(null, "roaming", default_roaming);
-                        pre_other_blocked.put(pkg, pblocked);
-                        pre_roaming.put(pkg, proaming);
-
-                    } else if ("relation".equals(xml.getName())) {
-                        String pkg = xml.getAttributeValue(null, "package");
-                        String[] rel = xml.getAttributeValue(null, "related").split(",");
-                        pre_related.put(pkg, rel);
-
-                    } else if ("type".equals(xml.getName())) {
-                        String pkg = xml.getAttributeValue(null, "package");
-                        boolean system = xml.getAttributeBooleanValue(null, "system", true);
-                        pre_system.put(pkg, system);
-                    }
-
-                eventType = xml.next();
-            }
-        } catch (Throwable ex) {
-            Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-        }
-
-        // Build rule list
-        List<Rule> listRules = new ArrayList<>();
-        List<PackageInfo> listPI = getPackages(context);
-
-        int userId = Process.myUid() / 100000;
-
-        // Add root
-        PackageInfo root = new PackageInfo();
-        root.packageName = "root";
-        root.versionCode = Build.VERSION.SDK_INT;
-        root.versionName = Build.VERSION.RELEASE;
-        root.applicationInfo = new ApplicationInfo();
-        root.applicationInfo.uid = 0;
-        root.applicationInfo.icon = 0;
-        listPI.add(root);
-
-        // Add mediaserver
-        PackageInfo media = new PackageInfo();
-        media.packageName = "android.media";
-        media.versionCode = Build.VERSION.SDK_INT;
-        media.versionName = Build.VERSION.RELEASE;
-        media.applicationInfo = new ApplicationInfo();
-        media.applicationInfo.uid = 1013 + userId * 100000;
-        media.applicationInfo.icon = 0;
-        listPI.add(media);
-
-        // MulticastDNSResponder
-        PackageInfo mdr = new PackageInfo();
-        mdr.packageName = "android.multicast";
-        mdr.versionCode = Build.VERSION.SDK_INT;
-        mdr.versionName = Build.VERSION.RELEASE;
-        mdr.applicationInfo = new ApplicationInfo();
-        mdr.applicationInfo.uid = 1020 + userId * 100000;
-        mdr.applicationInfo.icon = 0;
-        listPI.add(mdr);
-
-        // Add GPS daemon
-        PackageInfo gps = new PackageInfo();
-        gps.packageName = "android.gps";
-        gps.versionCode = Build.VERSION.SDK_INT;
-        gps.versionName = Build.VERSION.RELEASE;
-        gps.applicationInfo = new ApplicationInfo();
-        gps.applicationInfo.uid = 1021 + userId * 100000;
-        gps.applicationInfo.icon = 0;
-        listPI.add(gps);
-
-        // Add DNS daemon
-        PackageInfo dns = new PackageInfo();
-        dns.packageName = "android.dns";
-        dns.versionCode = Build.VERSION.SDK_INT;
-        dns.versionName = Build.VERSION.RELEASE;
-        dns.applicationInfo = new ApplicationInfo();
-        dns.applicationInfo.uid = 1051 + userId * 100000;
-        dns.applicationInfo.icon = 0;
-        listPI.add(dns);
-
-        // Add nobody
-        PackageInfo nobody = new PackageInfo();
-        nobody.packageName = "nobody";
-        nobody.versionCode = Build.VERSION.SDK_INT;
-        nobody.versionName = Build.VERSION.RELEASE;
-        nobody.applicationInfo = new ApplicationInfo();
-        nobody.applicationInfo.uid = 9999;
-        nobody.applicationInfo.icon = 0;
-        listPI.add(nobody);
-
-        DatabaseHelper dh = DatabaseHelper.getInstance(context);
-        for (PackageInfo info : listPI)
-            try {
-                // Skip self
-                if (info.applicationInfo.uid == Process.myUid())
-                    continue;
-
-                Rule rule = new Rule(dh, info, context);
-
-                if (pre_system.containsKey(info.packageName))
-                    rule.system = pre_system.get(info.packageName);
-                if (info.applicationInfo.uid == Process.myUid())
-                    rule.system = true;
-
-                if (all ||
-                        ((rule.system ? show_system : show_user) &&
-                                (show_nointernet || rule.internet) &&
-                                (show_disabled || rule.enabled))) {
-
-                    rule.wifi_default = (pre_wifi_blocked.containsKey(info.packageName) ? pre_wifi_blocked.get(info.packageName) : default_wifi);
-                    rule.other_default = (pre_other_blocked.containsKey(info.packageName) ? pre_other_blocked.get(info.packageName) : default_other);
-                    rule.screen_wifi_default = default_screen_wifi && isAppOpened(context, info.packageName);
-                    rule.screen_other_default = default_screen_other && isAppOpened(context, info.packageName);
-                    rule.roaming_default = (pre_roaming.containsKey(info.packageName) ? pre_roaming.get(info.packageName) : default_roaming);
-
-                    rule.wifi_blocked = (!(rule.system && !manage_system) && wifi.getBoolean(info.packageName, rule.wifi_default));
-                    rule.other_blocked = (!(rule.system && !manage_system) && other.getBoolean(info.packageName, rule.other_default));
-                    rule.screen_wifi = screen_wifi.getBoolean(info.packageName, rule.screen_wifi_default) && isAppOpened(context, info.packageName);
-                    rule.screen_other = screen_other.getBoolean(info.packageName, rule.screen_other_default) && isAppOpened(context, info.packageName);
-                    rule.roaming = roaming.getBoolean(info.packageName, rule.roaming_default);
-
-                    rule.lockdown = lockdown.getBoolean(info.packageName, false);
-
-                    rule.apply = apply.getBoolean(info.packageName, true);
-                    rule.notify = notify.getBoolean(info.packageName, true);
-
-                    // Related packages
-                    List<String> listPkg = new ArrayList<>();
-                    if (pre_related.containsKey(info.packageName))
-                        listPkg.addAll(Arrays.asList(pre_related.get(info.packageName)));
-                    for (PackageInfo pi : listPI)
-                        if (pi.applicationInfo.uid == rule.uid && !pi.packageName.equals(rule.packageName)) {
-                            rule.relateduids = true;
-                            listPkg.add(pi.packageName);
-                        }
-                    rule.related = listPkg.toArray(new String[0]);
-
-                    rule.hosts = dh.getHostCount(rule.uid, true);
-
-                    rule.updateChanged(default_wifi, default_other, default_roaming);
-
-                    listRules.add(rule);
-                }
-            } catch (Throwable ex) {
-                Log.e(TAG, ex.toString() + "\n" + Log.getStackTraceString(ex));
-            }
-
-        // Sort rule list
-        final Collator collator = Collator.getInstance(Locale.getDefault());
-        collator.setStrength(Collator.SECONDARY); // Case insensitive, process accents etc
-
-        String sort = prefs.getString("sort", "name");
-        if ("uid".equals(sort))
-            Collections.sort(listRules, new Comparator<Rule>() {
-                @Override
-                public int compare(Rule rule, Rule other) {
-                    if (rule.uid < other.uid)
-                        return -1;
-                    else if (rule.uid > other.uid)
-                        return 1;
-                    else {
-                        int i = collator.compare(rule.name, other.name);
-                        return (i == 0 ? rule.packageName.compareTo(other.packageName) : i);
-                    }
-                }
-            });
-        else
-            Collections.sort(listRules, new Comparator<Rule>() {
-                @Override
-                public int compare(Rule rule, Rule other) {
-                    if (all || rule.changed == other.changed) {
-                        int i = collator.compare(rule.name, other.name);
-                        return (i == 0 ? rule.packageName.compareTo(other.packageName) : i);
-                    }
-                    return (rule.changed ? -1 : 1);
-                }
-            });
-
-        return listRules;
-    }
     }
 
     private void updateChanged(boolean default_wifi, boolean default_other, boolean default_roaming) {
