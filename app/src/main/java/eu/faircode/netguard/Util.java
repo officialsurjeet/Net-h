@@ -338,19 +338,6 @@ public class Util {
         }
     }
 
-    public static boolean isAppOpened(Context context, String packageName) {
-    ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-    if (am == null) {
-        return false;
-    }
-    List<ActivityManager.RunningAppProcessInfo> runningProcesses = am.getRunningAppProcesses();
-    for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
-        if (processInfo.processName.equals(packageName) && processInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-            return true;
-        }
-    }
-    return false;
-    }
     public static boolean isSystem(int uid, Context context) {
         PackageManager pm = context.getPackageManager();
         String[] pkgs = pm.getPackagesForUid(uid);
