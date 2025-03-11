@@ -112,7 +112,7 @@ public class DataUsageService extends Service {
 				long mobileDataUsage = totalDataUsage.getTotalMobileDataUsage();
 long wifiDataUsage = totalDataUsage.getTotalWifiDataUsage();
 				long tott=mobileDataUsage+wifiDataUsage;
-notificationText = notificationText + tott;
+//notificationText = notificationText + tott;
                         
 
 				
