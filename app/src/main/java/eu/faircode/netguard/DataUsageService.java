@@ -34,6 +34,7 @@ public class DataUsageService extends Service {
 	
 	private DataUsageTracker dataUsageTracker;
 	private TotalDataUsage totalDataUsage ;
+	RemoteViews customView;
 
 	@Override
 	public void onCreate() {
@@ -42,6 +43,7 @@ public class DataUsageService extends Service {
 		createNotificationChannel();
 		dataUsageTracker = new DataUsageTracker(this);
 		totalDataUsage = new TotalDataUsage(this);
+		customView=new RemoteViews(getPackageName(),R.layout.custom_notification);
 	}
 	
 	@Override
@@ -72,11 +74,19 @@ public class DataUsageService extends Service {
 		Intent notificationIntent = new Intent(this, ActivityMain.class); // Replace MainActivity if not your launcher activity
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 		
+
+                customView.setTextViewText(R.id.notification_icon,"100 \nKB/S");
+		customView.setTextViewText(R.id.total_data_mobile,"5tf6t");
+		customView.setTextViewText(R.id.total_data_wifi,"gd5gg");
+		customView.setTextViewText(R.id.down_speed,"ygjjjjg");
+		customView.setTextViewText(R.id.up_speed,"fhg");
+	
 		
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-		.setContentTitle(formatBytes(total))
+		//.setContentTitle(formatBytes(total))
 		.setOnlyAlertOnce(true)
-		.setContentText(text)
+		//.setContentText(text)
+	        .setContent(customView)
 		.setSmallIcon(ImageUtils.createBitmapFromString(total))// replace with your icon
 		.setContentIntent(pendingIntent)
 		.setPriority(NotificationCompat.PRIORITY_MAX)  //Low priority for background tracking
