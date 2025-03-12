@@ -47,7 +47,7 @@ public class DataUsageService extends Service {
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		
-		startForeground(NOTIFICATION_ID, createNotification("Starting...",0)); //Initial notification
+		startForeground(NOTIFICATION_ID, createNotification("Starting...",0,0)); //Initial notification
 		startTrafficMonitoring();
 		return START_STICKY;  //restart the service if killed by system
 	}
@@ -66,7 +66,7 @@ public class DataUsageService extends Service {
 			notificationManager.createNotificationChannel(channel);
 		}
 	}
-	private Notification createNotification(String text,long total) {
+	private Notification createNotification(String text,long total,long totalDataUsage) {
 		
 		// Intent to launch when notification is clicked
 		Intent notificationIntent = new Intent(this, ActivityMain.class); // Replace MainActivity if not your launcher activity
@@ -117,7 +117,7 @@ long wifiDataUsage = totalDataUsage.getTotalWifiDataUsage();
 
 				
 				handler.post(() -> { // Posting to the main thread so it updates UI
-					notificationManager.notify(NOTIFICATION_ID, createNotification(notificationText,total));
+					notificationManager.notify(NOTIFICATION_ID, createNotification(notificationText,total,tott));
 				});
 				
 			}
