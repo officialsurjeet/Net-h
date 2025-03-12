@@ -45,12 +45,12 @@ public class DataUsageService extends Service {
 		createNotificationChannel();
 		dataUsageTracker = new DataUsageTracker(this);
 		totalDataUsage = new TotalDataUsage(this);
-		customView=new RemoteViews(getPackageName(),R.layout.custom_notification);
+		
 	}
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		
+		customView=new RemoteViews(getPackageName(),R.layout.custom_notification);
 		startForeground(NOTIFICATION_ID, createNotification("Starting...",0,0)); //Initial notification
 		startTrafficMonitoring();
 		return START_STICKY;  //restart the service if killed by system
@@ -89,12 +89,12 @@ public class DataUsageService extends Service {
 		.setOnlyAlertOnce(true)
 		//.setContentText(text)
 	        .setContent(customView)
-		.setSmallIcon(ImageUtils.createBitmapFromString(total))// replace with your icon
+		//.setSmallIcon(ImageUtils.createBitmapFromString(total))// replace with your icon
 		.setContentIntent(pendingIntent)
 		.setPriority(NotificationCompat.PRIORITY_MAX)  //Low priority for background tracking
 		.setOngoing(true)
 		//.setLargeIcon(ImageUtils.createBitmapFromString(total))
-	        .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+	     //   .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
 		.setShowWhen(false);
 		
 		return builder.build();
