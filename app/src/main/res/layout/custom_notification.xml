@@ -50,7 +50,7 @@
                 android:text="Cell 3" />
 
             <TextView
-				android:id="@+id/down_speed"
+				android:id="@+id/up_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
