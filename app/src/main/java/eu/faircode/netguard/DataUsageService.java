@@ -75,8 +75,8 @@ public class DataUsageService extends Service {
 		// Intent to launch when notification is clicked
 		Intent notificationIntent = new Intent(this, ActivityMain.class); // Replace MainActivity if not your launcher activity
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
-		long mobd = totalDataUsage.getTotalMobileDataUsage().longValue();
-long wifd = totalDataUsage.getTotalWifiDataUsage().longValue();
+		//long mobd = totalDataUsage.getTotalMobileDataUsage().longValue();
+//long wifd = totalDataUsage.getTotalWifiDataUsage().longValue();
 
                 customView.setTextViewText(R.id.notification_icon,formatBytes(total));
 		//customView.setTextViewText(R.id.total_data_mobile,formatBytes(mobd));
