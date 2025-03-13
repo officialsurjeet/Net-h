@@ -89,7 +89,7 @@ public class DataUsageService extends Service {
 		.setOnlyAlertOnce(true)
 		//.setContentText(text)
 	        .setContent(customView)
-		//.setSmallIcon(ImageUtils.createBitmapFromString(total))// replace with your icon
+		.setSmallIcon(ImageUtils.createBitmapFromString(total))// replace with your icon
 		.setContentIntent(pendingIntent)
 		.setPriority(NotificationCompat.PRIORITY_MAX)  //Low priority for background tracking
 		.setOngoing(true)
