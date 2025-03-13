@@ -79,8 +79,8 @@ public class DataUsageService extends Service {
 long wifd = totalDataUsage.getTotalWifiDataUsage().longValue();
 
                 customView.setTextViewText(R.id.notification_icon,formatBytes(total));
-		customView.setTextViewText(R.id.total_data_mobile,formatBytes(mobd));
-		customView.setTextViewText(R.id.total_data_wifi,formatBytes(wifd));
+		//customView.setTextViewText(R.id.total_data_mobile,formatBytes(mobd));
+		//customView.setTextViewText(R.id.total_data_wifi,formatBytes(wifd));
 		customView.setTextViewText(R.id.down_speed,"ygjjjjg");
 		customView.setTextViewText(R.id.up_speed,"fhg");
 	
