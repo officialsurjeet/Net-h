@@ -12,50 +12,47 @@
         android:layout_height="72dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/rounded_corner_with_border"
-        android:gravity="center_vertical|center|center_horizontal"
+        android:gravity="center"
         android:text="i"
         android:textColor="@android:color/black"
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:stretchColumns="1" >
+    <GridLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:columnCount="2"
+        android:padding="10dp"
+        android:rowCount="2" >
 
-        <TableRow>
+        <TextView
+            android:id="@+id/total_data_mobile"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:text="Cell 1" />
 
-            <TextView
-				android:id="@+id/total_data_mobile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Cell 1" />
+        <TextView
+            android:id="@+id/total_data_wifi"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:text="Cell 2" />
 
-            <TextView
-				android:id="@+id/total_data_wifi"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Cell 2" />
-        </TableRow>
+        <TextView
+            android:id="@+id/down_speed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:text="Cell 3" />
 
-        <TableRow>
-
-            <TextView
-				android:id="@+id/down_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Cell 3" />
-
-            <TextView
-				android:id="@+id/up_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="Cell 4" />
-        </TableRow>
-    </TableLayout>
+        <TextView
+            android:id="@+id/up_speed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:text="Cell 4" />
+    </GridLayout>
 
 </LinearLayout>
