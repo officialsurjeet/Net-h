@@ -77,9 +77,9 @@ public class DataUsageService extends Service {
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
 		
 
-                customView.setTextViewText(R.id.notification_icon,"100 \nKB/S");
-		customView.setTextViewText(R.id.total_data_mobile,"5tf6t");
-		customView.setTextViewText(R.id.total_data_wifi,"gd5gg");
+                customView.setTextViewText(R.id.notification_icon,formatBytes(total);
+		customView.setTextViewText(R.id.total_data_mobile,formatBytes(totalDataUsage.getTotalMobileDataUsage());
+		customView.setTextViewText(R.id.total_data_wifi,formatBytes(totalDataUsage.getTotalWifiDataUsage());
 		customView.setTextViewText(R.id.down_speed,"ygjjjjg");
 		customView.setTextViewText(R.id.up_speed,"fhg");
 	
