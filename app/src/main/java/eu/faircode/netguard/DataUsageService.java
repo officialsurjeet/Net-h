@@ -97,7 +97,8 @@ public class DataUsageService extends Service {
 		.setOngoing(true)
 		//.setLargeIcon(ImageUtils.createBitmapFromString(total))
 	        .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
-		.setShowWhen(false);
+		.setShowWhen(false)
+		.setStyle(new NotificationCompat.BigTextStyle().bigText(text));
 		
 		return builder.build();
 		
