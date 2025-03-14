@@ -50,7 +50,6 @@ public class DataUsageService extends Service {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		customView=new RemoteViews(getPackageName(),R.layout.custom_notification);
 		startForeground(NOTIFICATION_ID, createNotification("Starting...",0,0)); //Initial notification
 		startTrafficMonitoring();
 		return START_STICKY;  //restart the service if killed by system
@@ -70,7 +69,7 @@ public class DataUsageService extends Service {
 			notificationManager.createNotificationChannel(channel);
 		}
 	}
-	private Notification createNotification(String text,long total,long totalDataUsage) {
+	private Notification createNotification(String text,long total,long mob,long wif) {
 		
 		// Intent to launch when notification is clicked
 		Intent notificationIntent = new Intent(this, ActivityMain.class); // Replace MainActivity if not your launcher activity
@@ -78,9 +77,11 @@ public class DataUsageService extends Service {
 		//long mobd = totalDataUsage.getTotalMobileDataUsage().longValue();
 //long wifd = totalDataUsage.getTotalWifiDataUsage().longValue();
 
-                customView.setTextViewText(R.id.notification_icon,formatBytes(total));
-		//customView.setTextViewText(R.id.total_data_mobile,formatBytes(mobd));
-		//customView.setTextViewText(R.id.total_data_wifi,formatBytes(wifd));
+                customView=new RemoteViews(getPackageName(),R.layout.custom_notification);
+		
+		customView.setTextViewText(R.id.notification_icon,formatBytes(total));
+		customView.setTextViewText(R.id.total_data_mobile,formatBytes(mob));
+		customView.setTextViewText(R.id.total_data_wifi,formatBytes(wif));
 		customView.setTextViewText(R.id.down_speed,"ygjjjjg");
 		customView.setTextViewText(R.id.up_speed,"fhg");
 	
@@ -130,7 +131,7 @@ long wifiDataUsage = totalDataUsage.getTotalWifiDataUsage();
 
 				
 				handler.post(() -> { // Posting to the main thread so it updates UI
-					notificationManager.notify(NOTIFICATION_ID, createNotification(notificationText,total,tott));
+					notificationManager.notify(NOTIFICATION_ID, createNotification(notificationText,total,mobileDataUsage,wifiDataUsage));
 				});
 				
 			}
