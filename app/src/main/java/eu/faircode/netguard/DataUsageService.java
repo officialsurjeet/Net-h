@@ -50,7 +50,7 @@ public class DataUsageService extends Service {
 	
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		startForeground(NOTIFICATION_ID, createNotification("Starting...",0,0)); //Initial notification
+		startForeground(NOTIFICATION_ID, createNotification("Starting...",0,0,0)); //Initial notification
 		startTrafficMonitoring();
 		return START_STICKY;  //restart the service if killed by system
 	}
