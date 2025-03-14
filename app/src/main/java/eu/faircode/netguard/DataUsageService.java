@@ -94,11 +94,11 @@ public class DataUsageService extends Service {
 		.setSmallIcon(ImageUtils.createBitmapFromString(total))// replace with your icon
 		.setContentIntent(pendingIntent)
 		.setPriority(NotificationCompat.PRIORITY_MAX)  //Low priority for background tracking
-		.setOngoing(true)
+		.setOngoing(true);
 		//.setLargeIcon(ImageUtils.createBitmapFromString(total))
-	        .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
-		.setShowWhen(false)
-		.setStyle(new NotificationCompat.BigTextStyle().bigText(text));
+	        //.setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+		//.setShowWhen(false)
+		//.setStyle(new NotificationCompat.BigTextStyle().bigText(text));
 		
 		return builder.build();
 		
