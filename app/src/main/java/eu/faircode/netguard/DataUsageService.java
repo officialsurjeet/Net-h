@@ -77,7 +77,7 @@ public class DataUsageService extends Service
 		customView.setTextViewText(R.id.up_speed,formatSpeed(txSpeed));
 		
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-				//.setSmallIcon(createBitmapFromString(totalSpeed)) // Placeholder icon, won't be used
+				.setSmallIcon(createBitmapFromString(totalSpeed)) // Placeholder icon, won't be used
 				.setContent(customView)
 				.setContentIntent(pendingIntent)
 				.setOngoing(true) // Make the notification persistent
