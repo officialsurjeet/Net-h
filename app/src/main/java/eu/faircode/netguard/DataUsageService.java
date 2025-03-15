@@ -82,7 +82,7 @@ public class DataUsageService extends Service
 				.setContentIntent(pendingIntent)
 				.setOngoing(true) // Make the notification persistent
 				.setPriority(NotificationCompat.PRIORITY_MAX)
-			.setStyle(new NotificationCompat.DecoratedCustomViewStyle())
+			//.setStyle(new NotificationCompat.DecoratedCustomViewStyle())
             .setCustomContentView(customView)
             .setCustomBigContentView(customView) // Set custom big content view to expand by default
           
