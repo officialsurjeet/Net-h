@@ -87,9 +87,10 @@ public class DataUsageService extends Service
 		customView.setTextViewText(R.id.up_speed, "fhg");
 
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-				.setOnlyAlertOnce(true)
+				.setSmallIcon(ImageUtils.createBitmapFromString(total))
+			        .setOnlyAlertOnce(true)
 				.setContent(customView)
-				.setSmallIcon(ImageUtils.createBitmapFromString(total))// replace with your icon
+				// replace with your icon
 				.setContentIntent(pendingIntent)
 			        .setPriority(NotificationCompat.PRIORITY_MAX) //Low priority for background tracking
 				.setOngoing(true);
