@@ -81,7 +81,7 @@ public class DataUsageService extends Service
 				.setContent(customView)
 				.setContentIntent(pendingIntent)
 				.setOngoing(true) // Make the notification persistent
-				.setPriority(NotificationCompat.PRIORITY_LOW)
+				.setPriority(NotificationCompat.PRIORITY_MAX)
 				.setOnlyAlertOnce(true); // Set the priority to low
 		
 		    	return builder.build();
