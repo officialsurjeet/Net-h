@@ -35,6 +35,7 @@ public class DataUsageService extends Service
 	private long lastTxBytes = 0;
 	private NotificationManager notificationManager;
         RemoteViews customView;
+	private TotalDataUsage totalDataUsage;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -45,8 +46,9 @@ public class DataUsageService extends Service
 	public int onStartCommand(Intent intent, int flags, int startId) 
 	{
         notificationManager = getSystemService(NotificationManager.class);
+		totalDataUsage = new TotalDataUsage(this);
 		createNotificationChannel();
-		startForeground(NOTIFICATION_ID, createNotification(0,0,0));
+		startForeground(NOTIFICATION_ID, createNotification(0,0,0,0,0));
 		startDataMonitoring();
 		return START_STICKY;
 	}
@@ -65,7 +67,7 @@ public class DataUsageService extends Service
 		}
 	}
 
-	private Notification createNotification(long totalSpeed, long rxSpeed, long txSpeed) 
+	private Notification createNotification(long totalSpeed, long rxSpeed, long txSpeed,long mm, long ww) 
 	{
 		// Intent to open app when notification is clicked
 		Intent notificationIntent = new Intent(this, ActivityMain.class);
@@ -73,6 +75,8 @@ public class DataUsageService extends Service
 
 		customView = new RemoteViews(getPackageName(), R.layout.custom_notification);
 		customView.setTextViewText(R.id.notification_icon,formatSpeedIcon(totalSpeed));
+		customView.setTextViewText(R.id.total_data_mobile, formatBytes(mm));
+		customView.setTextViewText(R.id.total_data_wifi, formatBytes(ww));
 		customView.setTextViewText(R.id.down_speed,formatSpeed(rxSpeed));
 		customView.setTextViewText(R.id.up_speed,formatSpeed(txSpeed));
 		
@@ -105,12 +109,14 @@ public class DataUsageService extends Service
 			
 			long deltaRx = currentRxBytes - lastRxBytes;
 			long deltaTx = currentTxBytes - lastTxBytes;
-			
+			long mobileDataUsage = totalDataUsage.getTotalMobileDataUsage();
+			long wifiDataUsage = totalDataUsage.getTotalWifiDataUsage();
+				
 			lastRxBytes = currentRxBytes;
 			lastTxBytes = currentTxBytes;
 			long total = deltaRx + deltaTx;
 
-			Notification notification = createNotification(total,deltaRx,deltaTx);
+			Notification notification = createNotification(total,deltaRx,deltaTx, mobileDataUsage,wifiDataUsage);
 			notificationManager.notify(NOTIFICATION_ID, notification);
 			handler.postDelayed(this, 1000);
 		}
