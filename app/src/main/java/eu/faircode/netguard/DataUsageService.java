@@ -19,7 +19,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
 import androidx.core.app.NotificationCompat;
-import androidx.core.graphics.drawable.IconCompat
+import androidx.core.graphics.drawable.IconCompat;
 
 import java.util.Timer;
 import java.util.TimerTask;
