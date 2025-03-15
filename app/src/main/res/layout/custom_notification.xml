@@ -4,13 +4,13 @@
     android:layout_height="wrap_content"
 
     android:orientation="horizontal"
-    android:padding="8dp" >
+    android:padding="2dp" >
 
     <TextView
         android:id="@+id/notification_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="8dp"
+        android:layout_width="62dp"
+        android:layout_height="62dp"
+        android:layout_marginEnd="4dp"
         android:background="@drawable/rounded_corner_with_border"
         android:gravity="center"
         android:text="i"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:columnCount="2"
-        android:padding="10dp"
+        android:padding="3dp"
         android:rowCount="2" >
 
         <TextView
