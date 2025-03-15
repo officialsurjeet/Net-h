@@ -84,7 +84,7 @@ public class DataUsageService extends Service
 				.setPriority(NotificationCompat.PRIORITY_MAX)
 			//.setStyle(new NotificationCompat.DecoratedCustomViewStyle())
             .setCustomContentView(customView)
-            .setCustomBigContentView(customView) // Set custom big content view to expand by default
+           // .setCustomBigContentView(customView) // Set custom big content view to expand by default
           
 				.setOnlyAlertOnce(true); // Set the priority to low
 		
