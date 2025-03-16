@@ -32,6 +32,15 @@ jobs:
         SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
         SIGNING_KEY_STORE_PATH: ${{ secrets.SIGNING_KEY_STORE_PATH }}
 
+- name: List output directory contents
+        run: ls -R app/build/outputs/apk/release/
+        
+ - name: Upload unsigned APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-release-unsigned.apk
+        path: app/build/outputs/apk/release/*
+        
     - name: Sign APK
       run: |
         jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${{ secrets.SIGNING_KEY_STORE_PATH }} app/build/outputs/apk/release/app-release-unsigned.apk ${{ secrets.SIGNING_KEY_ALIAS }} -storepass ${{ secrets.SIGNING_KEY_PASSWORD }} -keypass ${{ secrets.SIGNING_KEY_PASSWORD }}
