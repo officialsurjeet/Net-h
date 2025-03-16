@@ -22,6 +22,21 @@ jobs:
         run: |
           echo "$SIGNING_KEY_STORE_BASE64" | base64 --decode > ${{ secrets.SIGNING_KEY_STORE_PATH }}
 
+    - name: Install Android SDK
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget tar unzip
+          wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
+          unzip commandlinetools-linux-8092744_latest.zip -d cmdline-tools
+          sudo mkdir -p /usr/local/android-sdk
+          sudo mv cmdline-tools /usr/local/android-sdk/
+          export ANDROID_HOME=/usr/local/android-sdk
+          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/bin
+          yes | sdkmanager --licenses
+          sdkmanager --update
+          sdkmanager "build-tools;30.0.3"
+          
+
       - name: Build with Gradle
         run: ./gradlew assembleRelease
         env:
