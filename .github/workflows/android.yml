@@ -22,7 +22,7 @@ jobs:
         run: |
           echo "$SIGNING_KEY_STORE_BASE64" | base64 --decode > ${{ secrets.SIGNING_KEY_STORE_PATH }}
 
-    - name: Install Android SDK
+      - name: Install Android SDK
         run: |
           sudo apt-get update
           sudo apt-get install -y wget tar unzip
@@ -35,7 +35,6 @@ jobs:
           yes | sdkmanager --licenses
           sdkmanager --update
           sdkmanager "build-tools;30.0.3"
-          
 
       - name: Build with Gradle
         run: ./gradlew assembleRelease
@@ -51,17 +50,17 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: NetGuard-v2.332-release-unsigned.apk
-          path: app/build/outputs/apk/release/*
-          
+          path: app/build/outputs/apk/release/NetGuard-v2.332-release-unsigned.apk
+
       - name: Sign APK
         run: |
           jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${{ secrets.SIGNING_KEY_STORE_PATH }} app/build/outputs/apk/release/NetGuard-v2.332-release-unsigned.apk ${{ secrets.SIGNING_KEY_ALIAS }} -storepass ${{ secrets.SIGNING_KEY_PASSWORD }} -keypass ${{ secrets.SIGNING_KEY_PASSWORD }}
 
       - name: Verify APK
-        run: zipalign -v 4 app/build/outputs/apk/release/NetGuard-v2.332-release-unsigned.apk app-release.apk
+        run: $ANDROID_HOME/build-tools/30.0.3/zipalign -v 4 app/build/outputs/apk/release/NetGuard-v2.332-release-unsigned.apk app-release.apk
 
       - name: Upload Signed APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release.apk
-          path: app/build/outputs/apk/release/*
+          path: app-release.apk
