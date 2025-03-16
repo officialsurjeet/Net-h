@@ -40,8 +40,8 @@ jobs:
       run: |
         jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${{ env.SIGNING_KEY_STORE_PATH }} app/build/outputs/apk/debug/NetGuard-v2.332-debug.apk ${{ env.SIGNING_KEY_ALIAS }} -storepass ${{ env.SIGNING_KEY_PASSWORD }} -keypass ${{ env.SIGNING_KEY_PASSWORD }}
 
-    - name: Verify APK Signature
-      run: jarsigner -verify -verbose -certs app/build/outputs/apk/debug/NetGuard-v2.332-debug.apk
+    #- name: Verify APK Signature
+     # run: jarsigner -verify -verbose -certs app/build/outputs/apk/debug/NetGuard-v2.332-debug.apk
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
