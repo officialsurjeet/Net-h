@@ -22,6 +22,17 @@ jobs:
         run: |
           echo "$SIGNING_KEY_STORE_BASE64" | base64 --decode > ${{ secrets.SIGNING_KEY_STORE_PATH }}
 
+      - name: Install Android SDK
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget tar unzip
+          wget https://dl.google.com/android/repository/commandlinetools-linux-8092744_latest.zip
+          mkdir -p android-sdk/cmdline-tools
+          unzip -q commandlinetools-linux-8092744_latest.zip -d android-sdk/cmdline-tools
+          yes | sudo android-sdk/cmdline-tools/cmdline-tools/bin/sdkmanager --sdk_root=android-sdk "build-tools;30.0.3"
+        env:
+          ANDROID_SDK_ROOT: android-sdk
+
       - name: Build with Gradle
         run: ./gradlew assembleRelease
         env:
@@ -36,19 +47,17 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: NetGuard-v2.332-release-unsigned.apk
-          path: app/build/outputs/apk/release/*
-          
+          path: app/build/outputs/apk/release/NetGuard-v2.332-release-unsigned.apk
+
       - name: Sign APK
         run: |
           jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${{ secrets.SIGNING_KEY_STORE_PATH }} app/build/outputs/apk/release/NetGuard-v2.332-release-unsigned.apk ${{ secrets.SIGNING_KEY_ALIAS }} -storepass ${{ secrets.SIGNING_KEY_PASSWORD }} -keypass ${{ secrets.SIGNING_KEY_PASSWORD }}
 
-     # - name: Verify APK
-      #  run: zipalign -v 4 app/build/outputs/apk/release/NetGuard-v2.332-release-unsigned.apk app-release.apk
-      - name: List output directory contents
-        run: ls -R app/build/outputs/apk/release/
-        
+      - name: Verify and Align APK
+        run: android-sdk/build-tools/30.0.3/zipalign -v 4 app/build/outputs/apk/release/NetGuard-v2.332-release-unsigned.apk netguard-app-release.apk
+
       - name: Upload Signed APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-release.apk
-          path: app/build/outputs/apk/release/*
+          name: netguard-app-release.apk
+          path: netguard-app-release.apk
