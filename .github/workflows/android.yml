@@ -40,7 +40,7 @@ jobs:
           
       - name: Sign APK
         run: |
-          jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${{ secrets.SIGNING_KEY_STORE_PATH }} app/build/outputs/apk/release/app-release-unsigned.apk ${{ secrets.SIGNING_KEY_ALIAS }} -storepass ${{ secrets.SIGNING_KEY_PASSWORD }} -keypass ${{ secrets.SIGNING_KEY_PASSWORD }}
+          jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${{ secrets.SIGNING_KEY_STORE_PATH }} app/build/outputs/apk/release/NetGuard-v2.332-release-unsigned.apk ${{ secrets.SIGNING_KEY_ALIAS }} -storepass ${{ secrets.SIGNING_KEY_PASSWORD }} -keypass ${{ secrets.SIGNING_KEY_PASSWORD }}
 
       - name: Verify APK
         run: zipalign -v 4 app/build/outputs/apk/release/NetGuard-v2.332-release-unsigned.apk app-release.apk
