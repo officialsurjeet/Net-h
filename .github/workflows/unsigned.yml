@@ -20,9 +20,15 @@ jobs:
         cache: gradle
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Build with Gradle
+    - name: Clean and Build with Gradle
       run: ./gradlew clean assembleDebug
       
+    - name: Upload Unsigned APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: unsigned-apk
+        path: app/build/outputs/apk/debug/*
+        
     - name: Decode Keystore
       env:
         SIGNING_KEY_STORE_BASE64: ${{ secrets.SIGNING_KEY_STORE_BASE64 }}
@@ -38,12 +44,12 @@ jobs:
         SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
         SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
       run: |
-        jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore ${{ env.SIGNING_KEY_STORE_PATH }} app/build/outputs/apk/debug/NetGuard-v2.332-debug.apk ${{ env.SIGNING_KEY_ALIAS }} -storepass ${{ env.SIGNING_KEY_PASSWORD }} -keypass ${{ env.SIGNING_KEY_PASSWORD }}
+        jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore ${{ env.SIGNING_KEY_STORE_PATH }} app/build/outputs/apk/debug/NetGuard-v2.332-debug.apk ${{ env.SIGNING_KEY_ALIAS }} -storepass ${{ env.SIGNING_KEY_PASSWORD }} -keypass ${{ env.SIGNING_KEY_PASSWORD }}
 
-    #- name: Verify APK Signature
-     # run: jarsigner -verify -verbose -certs app/build/outputs/apk/debug/NetGuard-v2.332-debug.apk
+    - name: Verify APK Signature
+      run: jarsigner -verify -verbose -certs app/build/outputs/apk/debug/NetGuard-v2.332-debug.apk
 
-    - name: Upload APK
+    - name: Upload Signed APK
       uses: actions/upload-artifact@v4
       with:
         name: signed-apk
